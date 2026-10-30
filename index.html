@@ -84,7 +84,7 @@ h2 .lbl{font-weight:400}
 .dt th{text-align:left;padding:0 0 6px}
 .dt td{border-top:1px solid var(--line);padding:8px 0;vertical-align:baseline}
 .dt tr:last-child td{border-bottom:1px solid var(--line)}
-.dt td.v{font-weight:700;font-size:22px;font-variant-numeric:tabular-nums;width:22%;white-space:nowrap}
+.dt td.v{font-weight:700;font-size:22px;font-variant-numeric:tabular-nums;width:22%;white-space:nowrap;padding-right:14px}
 .dt td.s{color:var(--muted);font-size:15px;text-align:right}
 @media (max-width:520px){.dt td.s{display:none}}
 
@@ -119,6 +119,39 @@ h2 .lbl{font-weight:400}
 .wa{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:10px 16px;background:var(--navy);color:#fff;text-decoration:none;font-weight:600;font-size:16px}
 .wa svg{width:20px;height:20px}
 .wa:hover{background:#2a3d6b}
+.moves-unused{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:12px}
+.mv{list-style:none;margin:0;padding:0;display:grid;gap:6px;min-width:0;flex:1 1 320px}
+.mv li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:baseline}
+.mv b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px}
+.key{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.key>span{display:inline-flex;align-items:center;gap:6px}
+.key i{display:inline-block;width:22px;height:0;border-top:2px solid var(--ink)}
+.key i.k-pass{border-top-style:dashed}
+.key i.k-carry{border-top:3px dotted var(--ink)}
+.car{display:grid;gap:10px}
+.track{display:block;transition:height .3s ease;overflow:hidden;touch-action:pan-y;overscroll-behavior-x:contain}
+.rail{display:flex;align-items:flex-start;gap:16px;width:100%;will-change:transform;transition:transform .42s cubic-bezier(.22,.61,.36,1)}
+.rail.dragging{transition:none}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;min-width:0;display:grid;gap:10px;align-content:start}
+.slide h3{margin:0;font-size:17px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;display:flex;gap:10px;align-items:baseline}
+.slide h3 .n{font:500 12px var(--mono);color:var(--muted)}
+.slide .note{margin:0}
+.carnav{display:flex;align-items:center;justify-content:center;gap:14px}
+.dots{display:flex;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--navy);background:transparent;padding:0;cursor:pointer}
+.dot[aria-current="true"]{background:var(--navy)}
+.arw{width:32px;height:32px;border:1px solid var(--line);background:var(--sheet);color:var(--navy);font-size:20px;line-height:1;cursor:pointer}
+.arw:disabled{opacity:.35;cursor:default}
+.key b{display:inline-block;width:10px;height:10px;border-radius:50%}
+.key .p-me{background:var(--navy)}
+.key .p-gh{border:1px dashed var(--navy)}
+.key .p-tm{border:1.5px solid var(--navy);background:#fff}
+.key .p-op{width:auto;height:auto;border-radius:0;color:var(--muted);font-size:15px;line-height:1}
+.ztabs{display:flex;gap:0;border:1px solid var(--navy);width:max-content;max-width:100%;margin-bottom:14px}
+.ztab{font:600 14px var(--sans);text-transform:uppercase;letter-spacing:.04em;padding:8px 16px;border:0;background:var(--sheet);color:var(--navy);cursor:pointer}
+.ztab+.ztab{border-left:1px solid var(--navy)}
+.ztab[aria-selected="true"]{background:var(--navy);color:#fff}
 .contact .val{font-family:var(--mono);font-size:15px;user-select:all}
 .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:2px solid var(--rule);padding:10px 28px}
 @media (max-width:560px){.foot{padding:10px 16px}}
@@ -189,10 +222,19 @@ h2 .lbl{font-weight:400}
   </section>
 
   <section class="in" aria-labelledby="h-zones">
-    <h2 id="h-zones"><span class="es">Zonas preferidas</span><span class="en">Preferred zones</span><span class="lbl"><span class="es">Dónde le gusta recibir</span><span class="en">Where he likes to receive</span></span></h2>
+    <h2 id="h-zones"><span class="es">Zonas preferidas</span><span class="en">Preferred zones</span><span class="lbl"><span class="es">Desliza para ver más</span><span class="en">Swipe for more</span></span></h2>
     <figure class="lead zq"><blockquote><span class="es">«Matthias es top en los alrededores del área.»</span><span class="en">“Matthias is top around the penalty box.”</span></blockquote><figcaption><b>Domenico Gurzí</b> <span class="lbl"><span class="es">Entrenador</span><span class="en">Coach</span></span></figcaption></figure>
-    <div class="pitchbox">
-      <svg id="heat" viewBox="-2 -2 109 78" role="img" aria-label="Mapa de calor de toques">
+    <div class="ztabs" role="tablist">
+      <button type="button" role="tab" class="ztab" id="tab-att" aria-selected="true" data-p="p-att"><span class="es">Ataque</span><span class="en">Attacking</span></button>
+      <button type="button" role="tab" class="ztab" id="tab-mid" aria-selected="false" data-p="p-mid"><span class="es">Medio</span><span class="en">Middle</span></button>
+      <button type="button" role="tab" class="ztab" id="tab-def" aria-selected="false" data-p="p-def"><span class="es">Defensa</span><span class="en">Defensive</span></button>
+    </div>
+    <div class="zpanel" id="p-att" role="tabpanel">
+    <div class="car">
+      <div class="track" id="ztrack">
+      <div class="slide" id="z1" role="group" aria-roledescription="slide" aria-label="1 / 3">
+        <h3><span class="n">1/3</span><span class="es">Zonas preferidas en ataque</span><span class="en">Preferred attacking zones</span></h3>
+        <div class="pitchbox"><svg id="heat" viewBox="-2 -2 109 78" role="img" aria-label="Mapa de calor de toques">
         <defs>
           <clipPath id="pc"><rect x="0" y="0" width="105" height="68"/></clipPath>
           <filter id="bl" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.6"/></filter>
@@ -216,9 +258,155 @@ h2 .lbl{font-weight:400}
           <rect x="64" y="70.2" width="26" height="3" fill="url(#lg)"/>
           <text x="92" y="72.5"><tspan class="es">más</tspan><tspan class="en">more</tspan></text>
         </g>
-      </svg>
+      </svg></div>
+        <p class="note"><span class="es">En el último tercio le gusta moverse por toda la línea de tres, también hacia la derecha. Sus zonas preferidas son por dentro, justo fuera del área, y el carril interior izquierdo, en el pico del área.</span><span class="en">In the final third he likes to move across the whole front three, including onto the right. His preferred areas are centrally, just outside the box, and the left half space at the corner of the box.</span></p>
+      </div>
+      <div class="slide" id="z2" role="group" aria-roledescription="slide" aria-label="2 / 3">
+        <h3><span class="n">2/3</span><span class="es">Recepción entre líneas</span><span class="en">Receiving between the lines</span></h3>
+        <div class="pitchbox"><svg viewBox="-2 -3 72 48" role="img" aria-label="Recepción entre líneas en los últimos 40 metros">
+        <defs><marker id="k2" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1b1c1e"/></marker></defs>
+        <rect x="0" y="0" width="68" height="42" fill="#f1f3ee"/>
+        <g fill="none" stroke="#9ca39a" stroke-width=".3">
+          <rect x="0" y="0" width="68" height="42"/>
+          <rect x="13.84" y="0" width="40.32" height="16.5"/><rect x="24.84" y="0" width="18.32" height="5.5"/>
+          <path d="M26.7 16.5 A9.15 9.15 0 0 0 41.3 16.5"/>
+          <line x1="30.34" y1="-1" x2="37.66" y2="-1" stroke-width=".6"/>
+        </g>
+        <g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="33.2" y1="0.8" x2="34.8" y2="2.4000000000000004"/><line x1="33.2" y1="2.4000000000000004" x2="34.8" y2="0.8"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="11.2" y1="16.2" x2="12.8" y2="17.8"/><line x1="11.2" y1="17.8" x2="12.8" y2="16.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="25.2" y1="15.2" x2="26.8" y2="16.8"/><line x1="25.2" y1="16.8" x2="26.8" y2="15.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="41.2" y1="15.2" x2="42.8" y2="16.8"/><line x1="41.2" y1="16.8" x2="42.8" y2="15.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="55.2" y1="16.2" x2="56.8" y2="17.8"/><line x1="55.2" y1="17.8" x2="56.8" y2="16.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="28.2" y1="33.400000000000006" x2="29.8" y2="35.0"/><line x1="28.2" y1="35.0" x2="29.8" y2="33.400000000000006"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="16.2" y1="37.400000000000006" x2="17.8" y2="39.0"/><line x1="16.2" y1="39.0" x2="17.8" y2="37.400000000000006"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="50.2" y1="37.400000000000006" x2="51.8" y2="39.0"/><line x1="50.2" y1="39.0" x2="51.8" y2="37.400000000000006"/></g>
+        <circle cx="6" cy="18.6" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/><circle cx="39" cy="18.8" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/><circle cx="62" cy="18.6" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/><circle cx="52" cy="30" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/><circle cx="23.5" cy="41" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/>
+        <circle cx="32.8" cy="32.6" r="1.05" fill="#fff" fill-opacity=".7" stroke="#1d2b4f" stroke-width=".35" stroke-dasharray=".55 .4"/>
+        <path d="M31.5 32.6 L24.9 32.6" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.25" /><path d="M31.5 32.6 L24.9 32.6" fill="none" stroke="#1d2b4f" stroke-width="0.45"  marker-end="url(#k2)"/>
+        <text x="28.2" y="31.0" text-anchor="middle" font-family="Roboto Mono, monospace" font-size="1.3" fill="#1d2b4f"><tspan class="es">← tarde</tspan><tspan class="en">← late</tspan></text>
+        <path d="M23.5 39.8 L23.5 34.1" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.2000000000000002" stroke-dasharray="1.3 .9"/><path d="M23.5 39.8 L23.5 34.1" fill="none" stroke="#1b1c1e" stroke-width="0.4" stroke-dasharray="1.3 .9" marker-end="url(#k2)"/>
+        <path d="M24.2 31.400000000000002 Q25.5 25.5 31 21.6" fill="none" stroke="#1b1c1e" stroke-width="0.7" stroke-dasharray=".3 .75" stroke-linecap="round" />
+        <path d="M32.1 20.3 L34 .8" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.25" /><path d="M32.1 20.3 L34 .8" fill="none" stroke="#1b1c1e" stroke-width="0.45"  marker-end="url(#k2)"/>
+        <circle cx="23.5" cy="32.6" r="1.15" fill="#1d2b4f" stroke="#fff" stroke-width=".4"/><circle cx="31.8" cy="21.2" r="1.15" fill="#1d2b4f" stroke="#fff" stroke-width=".4"/>
+        <text x="30.4" y="25.6" text-anchor="start" font-family="Roboto Mono, monospace" font-size="1.2" fill="#1d2b4f"><tspan class="es">gira, conduce y dispara o pasa</tspan><tspan class="en">turns, drives, shoots or passes</tspan></text>
+        <g font-family="Roboto Mono, monospace" font-size="1.4" fill="#62666c"><line x1="66.6" y1="44.2" x2="66.6" y2="39.4" stroke="#62666c" stroke-width=".3" marker-end="url(#k2)"/><text x="65.4" y="44.4" text-anchor="end"><tspan class="es">ataque</tspan><tspan class="en">attack</tspan></text></g>
+        <text x="0" y="44.4" text-anchor="start" font-family="Roboto Mono, monospace" font-size="1.4" fill="#62666c"><tspan class="es">Últimos 40 metros · 4-3-3 vs 4-3-3</tspan><tspan class="en">Final 40 metres · 4-3-3 vs 4-3-3</tspan></text>
+      </svg></div>
+        <p class="note"><span class="es">Le gusta partir junto al pivote rival y, en el último momento, desmarcarse hacia la izquierda para recibir el pase vertical del interior. Después gira, conduce y dispara o da el pase. No le da miedo disparar desde fuera del área.</span><span class="en">Likes to start beside their 6, then move late to the left to take the vertical pass from the 8. He then turns, drives, and shoots or plays the pass. Isn't afraid to shoot from outside the box.</span></p>
+        <div class="key lbl"><span><b class="p-me"></b><span class="es">Matthias</span><span class="en">Matthias</span></span><span><b class="p-gh"></b><span class="es">Posición inicial</span><span class="en">Starting position</span></span><span><b class="p-tm"></b><span class="es">Su equipo</span><span class="en">His team</span></span><span><b class="p-op">×</b><span class="es">Rival</span><span class="en">Opponent</span></span></div><div class="key lbl"><span><i class="k-pass"></i><span class="es">Pase</span><span class="en">Pass</span></span><span><i class="k-run"></i><span class="es">Desmarque / disparo</span><span class="en">Run / shot</span></span><span><i class="k-carry"></i><span class="es">Conducción</span><span class="en">Carry</span></span></div>
+      </div>
+      <div class="slide" id="z3" role="group" aria-roledescription="slide" aria-label="3 / 3">
+        <h3><span class="n">3/3</span><span class="es">Pase</span><span class="en">Passing</span></h3>
+        <div class="pitchbox"><svg viewBox="-2 -3 72 48" role="img" aria-label="Patrones de pase">
+        <defs><marker id="k3" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1b1c1e"/></marker>
+        <marker id="g3" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0L6 3L0 6z" fill="#62666c"/></marker>
+        <marker id="n3" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1d2b4f"/></marker></defs>
+        <rect x="0" y="0" width="68" height="42" fill="#f1f3ee"/>
+        <g fill="none" stroke="#9ca39a" stroke-width=".3">
+          <rect x="0" y="0" width="68" height="42"/>
+          <rect x="13.84" y="0" width="40.32" height="16.5"/><rect x="24.84" y="0" width="18.32" height="5.5"/>
+          <path d="M26.7 16.5 A9.15 9.15 0 0 0 41.3 16.5"/>
+          <line x1="30.34" y1="-1" x2="37.66" y2="-1" stroke-width=".6"/>
+        </g>
+        <g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="33.2" y1="0.8" x2="34.8" y2="2.4000000000000004"/><line x1="33.2" y1="2.4000000000000004" x2="34.8" y2="0.8"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="11.2" y1="16.2" x2="12.8" y2="17.8"/><line x1="11.2" y1="17.8" x2="12.8" y2="16.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="25.2" y1="15.2" x2="26.8" y2="16.8"/><line x1="25.2" y1="16.8" x2="26.8" y2="15.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="41.2" y1="15.2" x2="42.8" y2="16.8"/><line x1="41.2" y1="16.8" x2="42.8" y2="15.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="55.2" y1="16.2" x2="56.8" y2="17.8"/><line x1="55.2" y1="17.8" x2="56.8" y2="16.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="30.2" y1="33.2" x2="31.8" y2="34.8"/><line x1="30.2" y1="34.8" x2="31.8" y2="33.2"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="14.2" y1="37.7" x2="15.8" y2="39.3"/><line x1="14.2" y1="39.3" x2="15.8" y2="37.7"/></g><g stroke="#62666c" stroke-width=".5" stroke-linecap="round"><line x1="51.2" y1="37.7" x2="52.8" y2="39.3"/><line x1="51.2" y1="39.3" x2="52.8" y2="37.7"/></g>
+        <circle cx="8" cy="21" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/><circle cx="34" cy="19.5" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/><circle cx="61" cy="20" r="1.05" fill="#fff" stroke="#1d2b4f" stroke-width=".45"/>
+        <!-- 1: into feet, run inside -->
+        <path d="M19.2 30.4 L9.1 21.9" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.2000000000000002" stroke-dasharray="1.3 .9"/><path d="M19.2 30.4 L9.1 21.9" fill="none" stroke="#1b1c1e" stroke-width="0.4" stroke-dasharray="1.3 .9" marker-end="url(#k3)"/>
+        <path d="M20.4 29.6 L18.6 13.6" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.25" /><path d="M20.4 29.6 L18.6 13.6" fill="none" stroke="#1d2b4f" stroke-width="0.45"  marker-end="url(#n3)"/>
+        <path d="M8.6 19.9 Q9.8 12.2 17.2 12.4" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.2000000000000002" stroke-dasharray="1.3 .9"/><path d="M8.6 19.9 Q9.8 12.2 17.2 12.4" fill="none" stroke="#1b1c1e" stroke-width="0.4" stroke-dasharray="1.3 .9" marker-end="url(#k3)"/>
+        <circle cx="20" cy="31" r="1.15" fill="#1d2b4f" stroke="#fff" stroke-width=".4"/><g><circle cx="17.6" cy="33.2" r="1.5" fill="#1d2b4f"/><text x="17.6" y="33.85" text-anchor="middle" font-family="Archivo Narrow, Arial Narrow, sans-serif" font-weight="700" font-size="1.9" fill="#fff">1</text></g>
+        <!-- 2: drive, draw, release -->
+        <path d="M43.6 31.2 L45.4 25.4" fill="none" stroke="#1b1c1e" stroke-width="0.7" stroke-dasharray=".3 .75" stroke-linecap="round" />
+        <path d="M42.4 17.2 L44.3 21.6" fill="none" stroke="#62666c" stroke-width=".4" marker-end="url(#g3)"/>
+        <path d="M54.8 18 L49 22.4" fill="none" stroke="#62666c" stroke-width=".4" marker-end="url(#g3)"/>
+        <path d="M46.6 23.2 L52 12.6" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.2000000000000002" stroke-dasharray="1.3 .9"/><path d="M46.6 23.2 L52 12.6" fill="none" stroke="#1b1c1e" stroke-width="0.4" stroke-dasharray="1.3 .9" marker-end="url(#k3)"/>
+        <circle cx="43.2" cy="32.4" r="1.15" fill="#1d2b4f" stroke="#fff" stroke-width=".4"/><path d="M60.4 18.9 L54.2 12.4" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.25" /><path d="M60.4 18.9 L54.2 12.4" fill="none" stroke="#1d2b4f" stroke-width=".45"  marker-end="url(#n3)"/><circle cx="45.8" cy="24.5" r="1.15" fill="#1d2b4f" stroke="#fff" stroke-width=".4"/><g><circle cx="40.8" cy="34.4" r="1.5" fill="#1d2b4f"/><text x="40.8" y="35.05" text-anchor="middle" font-family="Archivo Narrow, Arial Narrow, sans-serif" font-weight="700" font-size="1.9" fill="#fff">2</text></g>
+        <g font-family="Roboto Mono, monospace" font-size="1.4" fill="#62666c"><line x1="66.6" y1="44.2" x2="66.6" y2="39.4" stroke="#62666c" stroke-width=".3" marker-end="url(#g3)"/><text x="65.4" y="44.4" text-anchor="end"><tspan class="es">ataque</tspan><tspan class="en">attack</tspan></text></g>
+        <text x="0" y="44.4" text-anchor="start" font-family="Roboto Mono, monospace" font-size="1.4" fill="#62666c"><tspan class="es">Últimos 40 metros</tspan><tspan class="en">Final 40 metres</tspan></text>
+      </svg></div>
+        <ol class="mv"><li><b>1</b><span><span class="es">Le gusta jugar al pie del extremo, seguir su desmarque por dentro y pedirla de vuelta a la espalda del lateral.</span><span class="en">Likes to play into the winger's feet, continue his run inside and demand it back in behind the full back.</span></span></li><li><b>2</b><span><span class="es">Le gusta conducir al espacio, atraer rivales y filtrar el pase entre central y lateral para el desmarque del extremo.</span><span class="en">Likes to drive into space, draw players in, then slip the pass between centre back and full back for the winger's run.</span></span></li></ol><div class="key lbl"><span><i class="k-pass"></i><span class="es">Pase</span><span class="en">Pass</span></span><span><i class="k-run"></i><span class="es">Desmarque / disparo</span><span class="en">Run / shot</span></span><span><i class="k-carry"></i><span class="es">Conducción</span><span class="en">Carry</span></span></div>
+      </div>
+      </div>
+      <div class="carnav"><button type="button" class="arw prev" id="zprev" aria-label="Anterior">‹</button><div class="dots"><button type="button" class="dot" data-i="0" aria-label="1"></button><button type="button" class="dot" data-i="1" aria-label="2"></button><button type="button" class="dot" data-i="2" aria-label="3"></button></div><button type="button" class="arw next" id="znext" aria-label="Siguiente">›</button></div>
     </div>
-    <p class="note"><span class="es">Arriba se mueve por toda la línea de tres, también hacia la derecha. Más atrás juega por dentro o a la izquierda, y casi nunca baja hasta la línea de cuatro.</span><span class="en">Up front he moves across the whole front three, including onto the right. Deeper, he stays central or to the left, and rarely drops as deep as the back four.</span></p>
+    </div>
+    <div class="zpanel" id="p-mid" role="tabpanel" hidden>
+      <div class="car">
+      <div class="track">
+      <div class="slide">
+        <h3><span class="n">1/3</span><span class="es">Zonas preferidas en el medio</span><span class="en">Preferred middle zones</span></h3>
+        <div class="pitchbox"><svg class="heatsvg" data-spots='[[65, 34, 3.6, 4.2, 0.85], [61, 25.5, 3.8, 3.4, 1], [61, 42.5, 3.6, 3.2, 0.55], [56, 32, 10, 13, 0.32], [64, 26, 8, 11, 0.22], [48, 30, 7, 10, 0.12], [60, 6, 6, 3.4, 0.85]]' viewBox="-2 -2 109 78" role="img" aria-label="Mapa de calor del tercio medio">
+        <defs><clipPath id="pcm"><rect x="0" y="0" width="105" height="68"/></clipPath><filter id="blm" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.6"/></filter><linearGradient id="lgm"><stop offset="0" stop-color="#ffe14d"/><stop offset=".5" stop-color="#ff8a1f"/><stop offset="1" stop-color="#e3170a"/></linearGradient></defs>
+        <rect x="0" y="0" width="105" height="68" fill="#f1f3ee"/>
+        <g class="cells" clip-path="url(#pcm)"><g filter="url(#blm)"></g></g>
+        <rect x="0" y="0" width="35" height="68" fill="#fff" fill-opacity=".45"/><rect x="70" y="0" width="35" height="68" fill="#fff" fill-opacity=".45"/>
+        <g fill="none" stroke="#9ca39a" stroke-width=".4"><rect x="0" y="0" width="105" height="68"/><line x1="52.5" y1="0" x2="52.5" y2="68"/><circle cx="52.5" cy="34" r="9.15"/><rect x="0" y="13.84" width="16.5" height="40.32"/><rect x="88.5" y="13.84" width="16.5" height="40.32"/><rect x="0" y="24.84" width="5.5" height="18.32"/><rect x="99.5" y="24.84" width="5.5" height="18.32"/><line x1="35" y1="0" x2="35" y2="68" stroke-dasharray="1 1.4"/><line x1="70" y1="0" x2="70" y2="68" stroke-dasharray="1 1.4"/></g>
+        <g stroke="#62666c" stroke-width=".55" stroke-linecap="round" opacity=".8"><line x1="56" y1="33" x2="58" y2="35"/><line x1="56" y1="35" x2="58" y2="33"/></g><g stroke="#62666c" stroke-width=".55" stroke-linecap="round" opacity=".8"><line x1="54" y1="19" x2="56" y2="21"/><line x1="54" y1="21" x2="56" y2="19"/></g><g stroke="#62666c" stroke-width=".55" stroke-linecap="round" opacity=".8"><line x1="54" y1="47" x2="56" y2="49"/><line x1="54" y1="49" x2="56" y2="47"/></g><g stroke="#62666c" stroke-width=".55" stroke-linecap="round" opacity=".8"><line x1="73" y1="9" x2="75" y2="11"/><line x1="73" y1="11" x2="75" y2="9"/></g><g stroke="#62666c" stroke-width=".55" stroke-linecap="round" opacity=".8"><line x1="72" y1="26" x2="74" y2="28"/><line x1="72" y1="28" x2="74" y2="26"/></g><g stroke="#62666c" stroke-width=".55" stroke-linecap="round" opacity=".8"><line x1="72" y1="40" x2="74" y2="42"/><line x1="72" y1="42" x2="74" y2="40"/></g><g stroke="#62666c" stroke-width=".55" stroke-linecap="round" opacity=".8"><line x1="73" y1="57" x2="75" y2="59"/><line x1="73" y1="59" x2="75" y2="57"/></g>
+        <g font-family="Roboto Mono, monospace" font-size="2.4" fill="#62666c"><line x1="2" y1="71.6" x2="12" y2="71.6" stroke="#62666c" stroke-width=".4"/><path d="M12 70.4 L14 71.6 L12 72.8z" fill="#62666c"/><text x="16" y="72.5"><tspan class="es">ataque</tspan><tspan class="en">attack</tspan></text>
+        <text x="62" y="72.5" text-anchor="end"><tspan class="es">menos</tspan><tspan class="en">fewer</tspan></text><rect x="64" y="70.2" width="26" height="3" fill="url(#lgm)"/><text x="92" y="72.5"><tspan class="es">más</tspan><tspan class="en">more</tspan></text></g>
+      </svg></div>
+        <p class="note"><span class="es">Le gusta recibir alto y por dentro, a la espalda del pivote rival. También entre el pivote y el interior, con el central y el lateral rivales por detrás: normalmente en el lado izquierdo, a veces en el derecho. De vez en cuando ocupa la banda izquierda.</span><span class="en">Likes to receive high and central, behind the opposition 6. Also between their 6 and 8, with their centre back and full back behind him: usually on the left, sometimes on the right. Occasionally occupies the left wing.</span></p>
+        <div class="key lbl"><span><b class="p-op">×</b><span class="es">Rival</span><span class="en">Opponent</span></span></div>
+      </div>
+      <div class="slide">
+        <h3><span class="n">2/3</span><span class="es">Descarga para el mediocentro</span><span class="en">Setting the 6</span></h3>
+        <div class="pitchbox"><svg viewBox="-2 -2 109 78" role="img">
+        <defs><marker id="km1" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1b1c1e"/></marker></defs>
+        <rect x="0" y="0" width="105" height="68" fill="#f1f3ee"/>
+        <rect x="0" y="0" width="35" height="68" fill="#fff" fill-opacity=".45"/><rect x="70" y="0" width="35" height="68" fill="#fff" fill-opacity=".45"/>
+        <g fill="none" stroke="#9ca39a" stroke-width=".4"><rect x="0" y="0" width="105" height="68"/><line x1="52.5" y1="0" x2="52.5" y2="68"/><circle cx="52.5" cy="34" r="9.15"/><rect x="0" y="13.84" width="16.5" height="40.32"/><rect x="88.5" y="13.84" width="16.5" height="40.32"/><rect x="0" y="24.84" width="5.5" height="18.32"/><rect x="99.5" y="24.84" width="5.5" height="18.32"/><line x1="35" y1="0" x2="35" y2="68" stroke-dasharray="1 1.4"/><line x1="70" y1="0" x2="70" y2="68" stroke-dasharray="1 1.4"/></g>
+        <g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="1"><line x1="56" y1="33" x2="58" y2="35"/><line x1="56" y1="35" x2="58" y2="33"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="1"><line x1="54" y1="19" x2="56" y2="21"/><line x1="54" y1="21" x2="56" y2="19"/></g><circle cx="25" cy="26" r="1.5" fill="#fff" stroke="#1d2b4f" stroke-width=".6"/><circle cx="42" cy="34" r="1.5" fill="#fff" stroke="#1d2b4f" stroke-width=".6"/><path d="M26.8 26 L55.8 26" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-dasharray="1.6 1.1"/><path d="M26.8 26 L55.8 26" fill="none" stroke="#1b1c1e" stroke-width=".6" stroke-dasharray="1.6 1.1" marker-end="url(#km1)"/><path d="M56.4 27.4 L43.8 33.2" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-dasharray="1.6 1.1"/><path d="M56.4 27.4 L43.8 33.2" fill="none" stroke="#1b1c1e" stroke-width=".6" stroke-dasharray="1.6 1.1" marker-end="url(#km1)"/><circle cx="58" cy="26" r="1.9" fill="#1d2b4f" stroke="#fff" stroke-width=".5"/><text x="25" y="22.6" text-anchor="middle" font-family="Roboto Mono, monospace" font-size="2.2" fill="#62666c"><tspan class="es">central</tspan><tspan class="en">centre back</tspan></text><text x="42" y="38.8" text-anchor="middle" font-family="Roboto Mono, monospace" font-size="2.2" fill="#62666c"><tspan class="es">mediocentro</tspan><tspan class="en">6</tspan></text><text x="60.8" y="26.8" text-anchor="start" font-family="Roboto Mono, monospace" font-size="2.2" fill="#62666c"><tspan class="es">Matthias</tspan><tspan class="en">Matthias</tspan></text>
+        <g font-family="Roboto Mono, monospace" font-size="2.4" fill="#62666c"><line x1="2" y1="71.6" x2="12" y2="71.6" stroke="#62666c" stroke-width=".4"/><path d="M12 70.4 L14 71.6 L12 72.8z" fill="#62666c"/><text x="16" y="72.5"><tspan class="es">ataque</tspan><tspan class="en">attack</tspan></text></g>
+      </svg></div>
+        <p class="note"><span class="es">Le gusta recibir del central entre el pivote y el interior rivales y descargar de cara para el mediocentro.</span><span class="en">Likes to receive from the centre back between their 6 and 8, and set it back to his 6.</span></p>
+        <div class="key lbl"><span><i class="k-pass"></i><span class="es">Pase</span><span class="en">Pass</span></span><span><b class="p-me"></b><span class="es">Matthias</span><span class="en">Matthias</span></span><span><b class="p-tm"></b><span class="es">Su equipo</span><span class="en">His team</span></span><span><b class="p-op">×</b><span class="es">Rival</span><span class="en">Opponent</span></span></div>
+</div>
+      <div class="slide">
+        <h3><span class="n">3/3</span><span class="es">Pase hacia delante</span><span class="en">Playing forward</span></h3>
+        <div class="pitchbox"><svg viewBox="-2 -2 109 78" role="img">
+        <defs><marker id="km2" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1b1c1e"/></marker></defs>
+        <rect x="0" y="0" width="105" height="68" fill="#f1f3ee"/>
+        <rect x="0" y="0" width="35" height="68" fill="#fff" fill-opacity=".45"/><rect x="70" y="0" width="35" height="68" fill="#fff" fill-opacity=".45"/>
+        <g fill="none" stroke="#9ca39a" stroke-width=".4"><rect x="0" y="0" width="105" height="68"/><line x1="52.5" y1="0" x2="52.5" y2="68"/><circle cx="52.5" cy="34" r="9.15"/><rect x="0" y="13.84" width="16.5" height="40.32"/><rect x="88.5" y="13.84" width="16.5" height="40.32"/><rect x="0" y="24.84" width="5.5" height="18.32"/><rect x="99.5" y="24.84" width="5.5" height="18.32"/><line x1="35" y1="0" x2="35" y2="68" stroke-dasharray="1 1.4"/><line x1="70" y1="0" x2="70" y2="68" stroke-dasharray="1 1.4"/></g>
+        <g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="1"><line x1="56" y1="33" x2="58" y2="35"/><line x1="56" y1="35" x2="58" y2="33"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="1"><line x1="54" y1="47" x2="56" y2="49"/><line x1="54" y1="49" x2="56" y2="47"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="0.5"><line x1="73" y1="9" x2="75" y2="11"/><line x1="73" y1="11" x2="75" y2="9"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="0.5"><line x1="72" y1="26" x2="74" y2="28"/><line x1="72" y1="28" x2="74" y2="26"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="0.5"><line x1="72" y1="40" x2="74" y2="42"/><line x1="72" y1="42" x2="74" y2="40"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity="0.5"><line x1="73" y1="57" x2="75" y2="59"/><line x1="73" y1="59" x2="75" y2="57"/></g><circle cx="42" cy="34" r="1.5" fill="#fff" stroke="#1d2b4f" stroke-width=".6"/><circle cx="71" cy="34" r="1.5" fill="#fff" stroke="#1d2b4f" stroke-width=".6"/><circle cx="68.5" cy="61" r="1.5" fill="#fff" stroke="#1d2b4f" stroke-width=".6"/><path d="M43.7 35 L58.2 42.2" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-dasharray="1.6 1.1"/><path d="M43.7 35 L58.2 42.2" fill="none" stroke="#1b1c1e" stroke-width=".6" stroke-dasharray="1.6 1.1" marker-end="url(#km2)"/><path d="M61.6 41.8 L69.4 35.2" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-dasharray="1.6 1.1"/><path d="M61.6 41.8 L69.4 35.2" fill="none" stroke="#1b1c1e" stroke-width=".6" stroke-dasharray="1.6 1.1" marker-end="url(#km2)"/><path d="M61.2 44.6 L67.4 59.2" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-dasharray="1.6 1.1"/><path d="M61.2 44.6 L67.4 59.2" fill="none" stroke="#1b1c1e" stroke-width=".6" stroke-dasharray="1.6 1.1" marker-end="url(#km2)"/><circle cx="60" cy="43" r="1.9" fill="#1d2b4f" stroke="#fff" stroke-width=".5"/><text x="42" y="30.6" text-anchor="middle" font-family="Roboto Mono, monospace" font-size="2.2" fill="#62666c"><tspan class="es">mediocentro</tspan><tspan class="en">6</tspan></text><text x="71" y="38.6" text-anchor="middle" font-family="Roboto Mono, monospace" font-size="2.2" fill="#62666c"><tspan class="es">delantero</tspan><tspan class="en">striker</tspan></text><text x="68.5" y="66" text-anchor="middle" font-family="Roboto Mono, monospace" font-size="2.2" fill="#62666c"><tspan class="es">extremo</tspan><tspan class="en">winger</tspan></text><text x="57" y="46.6" text-anchor="end" font-family="Roboto Mono, monospace" font-size="2.2" fill="#62666c"><tspan class="es">Matthias</tspan><tspan class="en">Matthias</tspan></text>
+        <g font-family="Roboto Mono, monospace" font-size="2.4" fill="#62666c"><line x1="2" y1="71.6" x2="12" y2="71.6" stroke="#62666c" stroke-width=".4"/><path d="M12 70.4 L14 71.6 L12 72.8z" fill="#62666c"/><text x="16" y="72.5"><tspan class="es">ataque</tspan><tspan class="en">attack</tspan></text></g>
+      </svg></div>
+        <p class="note"><span class="es">Le gusta recibir del mediocentro y buscar al delantero o al extremo.</span><span class="en">Likes to receive from the 6 and find the striker or the winger.</span></p>
+        <div class="key lbl"><span><i class="k-pass"></i><span class="es">Pase</span><span class="en">Pass</span></span><span><b class="p-me"></b><span class="es">Matthias</span><span class="en">Matthias</span></span><span><b class="p-tm"></b><span class="es">Su equipo</span><span class="en">His team</span></span><span><b class="p-op">×</b><span class="es">Rival</span><span class="en">Opponent</span></span></div>
+</div>
+      </div>
+      <div class="carnav"><button type="button" class="arw prev" aria-label="Anterior">‹</button><div class="dots"><button type="button" class="dot" aria-label="1"></button><button type="button" class="dot" aria-label="2"></button><button type="button" class="dot" aria-label="3"></button></div><button type="button" class="arw next" aria-label="Siguiente">›</button></div>
+    </div>
+    </div>
+    <div class="zpanel" id="p-def" role="tabpanel" hidden>
+      <div class="car">
+      <div class="track">
+      <div class="slide">
+        <h3><span class="n">1/2</span><span class="es">Zonas preferidas en defensa</span><span class="en">Preferred defensive zones</span></h3>
+        <div class="pitchbox"><svg class="heatsvg" data-spots='[[50.5, 34, 3.8, 4.2, 1], [43.5, 20.5, 3.2, 3, 0.75], [46.8, 26, 3, 3, 0.6], [42.8, 46, 3.2, 3, 0.62], [46.4, 41, 3, 3, 0.5], [47, 33, 8, 14, 0.28]]' viewBox="-2 -2 109 78" role="img" aria-label="Posición con el balón en campo propio">
+        <defs><clipPath id="pcd"><rect x="0" y="0" width="105" height="68"/></clipPath><filter id="bld" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.6"/></filter><linearGradient id="lgd"><stop offset="0" stop-color="#ffe14d"/><stop offset=".5" stop-color="#ff8a1f"/><stop offset="1" stop-color="#e3170a"/></linearGradient></defs>
+        <rect x="0" y="0" width="105" height="68" fill="#f1f3ee"/>
+        <rect x="0" y="0" width="35" height="68" fill="#1d2b4f" fill-opacity=".06"/>
+        <g class="cells" clip-path="url(#pcd)"><g filter="url(#bld)"></g></g>
+        <g fill="none" stroke="#9ca39a" stroke-width=".4"><rect x="0" y="0" width="105" height="68"/><line x1="52.5" y1="0" x2="52.5" y2="68"/><circle cx="52.5" cy="34" r="9.15"/><rect x="0" y="13.84" width="16.5" height="40.32"/><rect x="88.5" y="13.84" width="16.5" height="40.32"/><rect x="0" y="24.84" width="5.5" height="18.32"/><rect x="99.5" y="24.84" width="5.5" height="18.32"/><line x1="35" y1="0" x2="35" y2="68" stroke-dasharray="1 1.4"/><line x1="70" y1="0" x2="70" y2="68" stroke-dasharray="1 1.4"/></g>
+        <circle cx="13" cy="8" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="10" cy="26" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="10" cy="42" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="13" cy="60" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="21" cy="34" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="29" cy="48" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity=".85"><line x1="36" y1="19" x2="38" y2="21"/><line x1="36" y1="21" x2="38" y2="19"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity=".85"><line x1="35" y1="45" x2="37" y2="47"/><line x1="35" y1="47" x2="37" y2="45"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity=".85"><line x1="43" y1="33" x2="45" y2="35"/><line x1="43" y1="35" x2="45" y2="33"/></g>
+        <g font-family="Roboto Mono, monospace" font-size="2.4" fill="#62666c"><line x1="2" y1="71.6" x2="12" y2="71.6" stroke="#62666c" stroke-width=".4"/><path d="M12 70.4 L14 71.6 L12 72.8z" fill="#62666c"/><text x="16" y="72.5"><tspan class="es">ataque</tspan><tspan class="en">attack</tspan></text>
+        <text x="62" y="72.5" text-anchor="end"><tspan class="es">menos</tspan><tspan class="en">less</tspan></text><rect x="64" y="70.2" width="26" height="3" fill="url(#lgd)"/><text x="92" y="72.5"><tspan class="es">más</tspan><tspan class="en">more</tspan></text></g>
+      </svg></div>
+        <p class="note"><span class="es">Con el balón en campo propio (zona sombreada), le gusta quedarse alto, a la espalda del mediocampo rival, en lugar de bajar hacia la línea de cuatro.</span><span class="en">With the ball in his own third (shaded), he likes to stay high, behind the opposition midfield, rather than drop towards the back four.</span></p>
+        <div class="key lbl"><span><b class="p-tm"></b><span class="es">Su equipo</span><span class="en">His team</span></span><span><b class="p-op">×</b><span class="es">Rival</span><span class="en">Opponent</span></span></div>
+      </div>
+      <div class="slide">
+        <h3><span class="n">2/2</span><span class="es">Movimiento lateral</span><span class="en">Late lateral movement</span></h3>
+        <div class="pitchbox"><svg viewBox="-2 -2 109 78" role="img" aria-label="Movimiento lateral para recibir">
+        <defs><marker id="kl" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1b1c1e"/></marker><marker id="kln" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1d2b4f"/></marker></defs>
+        <rect x="0" y="0" width="105" height="68" fill="#f1f3ee"/>
+        <rect x="0" y="0" width="35" height="68" fill="#1d2b4f" fill-opacity=".06"/>
+        <g fill="none" stroke="#9ca39a" stroke-width=".4"><rect x="0" y="0" width="105" height="68"/><line x1="52.5" y1="0" x2="52.5" y2="68"/><circle cx="52.5" cy="34" r="9.15"/><rect x="0" y="13.84" width="16.5" height="40.32"/><rect x="88.5" y="13.84" width="16.5" height="40.32"/><rect x="0" y="24.84" width="5.5" height="18.32"/><rect x="99.5" y="24.84" width="5.5" height="18.32"/><line x1="35" y1="0" x2="35" y2="68" stroke-dasharray="1 1.4"/><line x1="70" y1="0" x2="70" y2="68" stroke-dasharray="1 1.4"/></g>
+        <circle cx="13" cy="8" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="10" cy="26" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="10" cy="42" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="13" cy="60" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="21" cy="34" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><circle cx="29" cy="48" r="1.4" fill="#fff" stroke="#1d2b4f" stroke-width=".55"/><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity=".85"><line x1="36" y1="19" x2="38" y2="21"/><line x1="36" y1="21" x2="38" y2="19"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity=".85"><line x1="35" y1="45" x2="37" y2="47"/><line x1="35" y1="47" x2="37" y2="45"/></g><g stroke="#62666c" stroke-width=".6" stroke-linecap="round" opacity=".85"><line x1="43" y1="33" x2="45" y2="35"/><line x1="43" y1="35" x2="45" y2="33"/></g>
+        <path d="M49.2 32.6 L44.2 24" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6"/><path d="M49.2 32.6 L44.2 24" fill="none" stroke="#1d2b4f" stroke-width=".6" marker-end="url(#kln)"/><path d="M49.2 35.4 L44.2 44" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6"/><path d="M49.2 35.4 L44.2 44" fill="none" stroke="#1d2b4f" stroke-width=".6" marker-end="url(#kln)"/><path d="M51.4 32.3 L51.4 27.4" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6"/><path d="M51.4 32.3 L51.4 27.4" fill="none" stroke="#1d2b4f" stroke-width=".6" marker-end="url(#kln)"/><path d="M51.4 35.7 L51.4 40.6" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6"/><path d="M51.4 35.7 L51.4 40.6" fill="none" stroke="#1d2b4f" stroke-width=".6" marker-end="url(#kln)"/><circle cx="50.5" cy="34" r="1.8" fill="#1d2b4f" stroke="#fff" stroke-width=".5"/><text x="53.4" y="34.8" font-family="Roboto Mono, monospace" font-size="2.2" fill="#1d2b4f"><tspan class="es">tarde</tspan><tspan class="en">late</tspan></text>
+        <g font-family="Roboto Mono, monospace" font-size="2.4" fill="#62666c"><line x1="2" y1="71.6" x2="12" y2="71.6" stroke="#62666c" stroke-width=".4"/><path d="M12 70.4 L14 71.6 L12 72.8z" fill="#62666c"/><text x="16" y="72.5"><tspan class="es">ataque</tspan><tspan class="en">attack</tspan></text></g>
+      </svg></div>
+        <p class="note"><span class="es">Desde la espalda del pivote rival, le gusta moverse tarde para abrir la línea de pase: en diagonal, a la espalda de cualquiera de los interiores, o en un ligero lateral, a la izquierda o a la derecha. Desde ahí recibe y hace progresar el juego.</span><span class="en">From behind the opposition 6, he likes to move late to open the passing lane: diagonally, behind either 8, or with a slight lateral move, left or right. From there he receives and progresses the play.</span></p>
+        <div class="key lbl"><span><i class="k-run"></i><span class="es">Desmarque</span><span class="en">Movement</span></span><span><b class="p-me"></b><span class="es">Matthias</span><span class="en">Matthias</span></span><span><b class="p-tm"></b><span class="es">Su equipo</span><span class="en">His team</span></span><span><b class="p-op">×</b><span class="es">Rival</span><span class="en">Opponent</span></span></div>
+      </div>
+      </div>
+      <div class="carnav"><button type="button" class="arw prev" aria-label="Anterior">‹</button><div class="dots"><button type="button" class="dot" aria-label="1"></button><button type="button" class="dot" aria-label="2"></button></div><button type="button" class="arw next" aria-label="Siguiente">›</button></div>
+    </div>
+    </div>
   </section>
 
   <section class="in" aria-labelledby="h-data">
@@ -270,14 +458,69 @@ h2 .lbl{font-weight:400}
   document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l)})});
 })();
 (function(){
-  var g=document.querySelector('#cells g'); if(!g) return;
-  var spots=[[82,34,6,7,1],[77,13,9,6,1],[88,20,4,4,.55],[80,52,9,6,.45],[72,41,7,6,.35],[58,30,9,9,.4],[56,16,9,6,.35],[38,30,8,9,.07]];
+  function draw(g,spots){
   var c=2.5,vals=[],max=0;
   for(var x=c/2;x<105;x+=c){for(var y=c/2;y<68;y+=c){var v=0;spots.forEach(function(s){v+=s[4]*Math.exp(-(Math.pow(x-s[0],2)/(2*s[2]*s[2])+Math.pow(y-s[1],2)/(2*s[3]*s[3])))});vals.push([x,y,v]);if(v>max)max=v}}
   var ns='http://www.w3.org/2000/svg';
   var stops=[[0,[255,236,110]],[.35,[255,200,40]],[.65,[255,130,30]],[1,[220,20,10]]];
   function heat(v){for(var i=1;i<stops.length;i++){if(v<=stops[i][0]){var a=stops[i-1],b=stops[i],t=(v-a[0])/(b[0]-a[0]);return 'rgb('+a[1].map(function(c,k){return Math.round(c+(b[1][k]-c)*t)}).join(',')+')'}}return 'rgb(220,20,10)'}
-  vals.forEach(function(p){var v=p[2]/max;if(v<.08)return;var r=document.createElementNS(ns,'rect');r.setAttribute('x',p[0]-c/2);r.setAttribute('y',p[1]-c/2);r.setAttribute('width',c+.05);r.setAttribute('height',c+.05);r.setAttribute('fill',heat(v));r.setAttribute('fill-opacity',Math.min(.92,.3+v*.9).toFixed(3));g.appendChild(r)});
+  var S=6,X0=-4,Y0=-4,W=113*S,H=76*S,cv=document.createElement('canvas');cv.width=W;cv.height=H;var cx=cv.getContext('2d');
+  vals.forEach(function(p){var v=p[2]/max;if(v<.08)return;cx.globalAlpha=Math.min(.92,.3+v*.9);cx.fillStyle=heat(v);cx.fillRect(Math.round((p[0]-c/2-X0)*S),Math.round((p[1]-c/2-Y0)*S),Math.round(c*S),Math.round(c*S))});
+  var im=cx.getImageData(0,0,W,H),d=im.data,n=W*H,ch=[new Float32Array(n),new Float32Array(n),new Float32Array(n),new Float32Array(n)],i,k;
+  for(i=0;i<n;i++){var a=d[i*4+3]/255;ch[0][i]=d[i*4]*a;ch[1][i]=d[i*4+1]*a;ch[2][i]=d[i*4+2]*a;ch[3][i]=a}
+  var sig=1.6*S,wi=Math.floor(Math.sqrt(12*sig*sig/3+1));if(wi%2==0)wi--;var m=Math.round((12*sig*sig-3*wi*wi-12*wi-9)/(-4*wi-4)),rs=[0,1,2].map(function(j){return((j<m?wi:wi+2)-1)/2});
+  function bx(a,b,w,h,r,hor){var L=hor?w:h,O=hor?h:w,st=hor?1:w,os=hor?w:1,iv=1/(r+r+1);for(var o=0;o<O;o++){var base=o*os,acc=0,j;for(j=-r;j<=r;j++)acc+=a[base+Math.min(L-1,Math.max(0,j))*st];for(j=0;j<L;j++){b[base+j*st]=acc*iv;acc+=a[base+Math.min(L-1,j+r+1)*st]-a[base+Math.max(0,j-r)*st]}}}
+  var tmp=new Float32Array(n);ch.forEach(function(a){rs.forEach(function(r){bx(a,tmp,W,H,r,true);bx(tmp,a,W,H,r,false)})});
+  for(i=0;i<n;i++){var A=ch[3][i];d[i*4+3]=Math.round(A*255);if(A>0){d[i*4]=ch[0][i]/A;d[i*4+1]=ch[1][i]/A;d[i*4+2]=ch[2][i]/A}}
+  cx.putImageData(im,0,0);
+  var img=document.createElementNS(ns,'image');img.setAttribute('x',X0);img.setAttribute('y',Y0);img.setAttribute('width',113);img.setAttribute('height',76);img.setAttribute('preserveAspectRatio','none');
+  var url=cv.toDataURL('image/png');img.setAttribute('href',url);img.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href',url);
+  g.parentNode.insertBefore(img,g);g.parentNode.removeChild(g);
+
+  }
+  var g0=document.querySelector('#cells g'); if(g0) draw(g0,[[82,34,6,7,1],[77,13,9,6,1],[88,20,4,4,.55],[80,52,9,6,.45],[72,41,7,6,.35],[58,30,9,9,.4],[56,16,9,6,.35],[38,30,8,9,.07]]);
+  [].forEach.call(document.querySelectorAll('.heatsvg'),function(sv){try{draw(sv.querySelector('.cells g'),JSON.parse(sv.getAttribute('data-spots')))}catch(e){}});
+})();
+(function(){
+  [].forEach.call(document.querySelectorAll('.car'),function(car){
+    var t=car.querySelector('.track'); if(!t) return;
+    var slides=[].slice.call(t.children), rail=document.createElement('div'); rail.className='rail';
+    slides.forEach(function(sl){rail.appendChild(sl)}); t.appendChild(rail);
+    var dots=[].slice.call(car.querySelectorAll('.dot')), p=car.querySelector('.arw.prev'), n=car.querySelector('.arw.next'), cur=0, last=slides.length-1;
+    function step(){return t.clientWidth+16}
+    function setX(x){rail.style.transform='translate3d('+x+'px,0,0)'}
+    function fit(){var sl=slides[cur];if(sl&&sl.offsetHeight)t.style.height=sl.offsetHeight+'px'}
+    function mark(){dots.forEach(function(d,k){d.setAttribute('aria-current',k===cur?'true':'false')});if(p)p.disabled=cur===0;if(n)n.disabled=cur===last;fit()}
+    function go(i){cur=Math.max(0,Math.min(last,i));rail.classList.remove('dragging');setX(-cur*step());mark()}
+    dots.forEach(function(d,k){d.addEventListener('click',function(){go(k)})});
+    if(p)p.addEventListener('click',function(){go(cur-1)});
+    if(n)n.addEventListener('click',function(){go(cur+1)});
+    var sx=0,sy=0,st=0,lock=0,drag=false,dxl=0,bx=0;
+    function curX(){var m=getComputedStyle(rail).transform;if(!m||m==='none')return 0;var v=m.match(/-?[\d.]+/g);return v?parseFloat(v[m.indexOf('matrix3d')===0?12:4]):0}
+    t.addEventListener('touchstart',function(e){var q=e.touches[0];sx=q.clientX;sy=q.clientY;st=Date.now();lock=0;drag=true;dxl=0;bx=-cur*step()},{passive:true});
+    t.addEventListener('touchmove',function(e){if(!drag)return;var q=e.touches[0],dx=q.clientX-sx,dy=q.clientY-sy;
+      if(!lock){if(Math.abs(dx)<6&&Math.abs(dy)<6)return;lock=Math.abs(dx)>Math.abs(dy)?1:2;if(lock===1){bx=curX();rail.classList.add('dragging');setX(bx)}}
+      if(lock!==1)return;e.preventDefault();var w=step();
+      var o=bx+cur*w;dx+=o;
+      if((cur===0&&dx>0)||(cur===last&&dx<0))dx=dx*.3; else dx=Math.max(-w,Math.min(w,dx));
+      dxl=dx;setX(-cur*w+dx)},{passive:false});
+    function end(){if(!drag)return;drag=false;if(lock!==1)return;var dt=Math.max(1,Date.now()-st),v=Math.abs(dxl)/dt,thr=Math.min(80,t.clientWidth*.2);
+      if(dxl<-thr||(v>.3&&dxl<-12))go(cur+1);else if(dxl>thr||(v>.3&&dxl>12))go(cur-1);else go(cur)}
+    t.addEventListener('touchend',end);t.addEventListener('touchcancel',end);
+    var lw=0;
+    function reflow(){var w=t.clientWidth;if(!w)return;if(w!==lw&&!drag){lw=w;rail.classList.add('dragging');setX(-cur*step());rail.offsetWidth;rail.classList.remove('dragging')}fit()}
+    window.addEventListener('resize',reflow);
+    if(window.ResizeObserver){var ro=new ResizeObserver(reflow);slides.forEach(function(sl){ro.observe(sl)})}
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+    mark();
+  });
+})();
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.ztab'));
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(o){var on=o===t;o.setAttribute('aria-selected',on?'true':'false');document.getElementById(o.dataset.p).hidden=!on});
+    window.dispatchEvent(new Event('resize'));
+  })});
 })();
 </script>
 
